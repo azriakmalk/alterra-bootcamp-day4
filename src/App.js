@@ -26,6 +26,7 @@ function App() {
   }
 
   const handlerSubmit = () => {
+    if(todo === '') return alert('Note tidak boleh kosong!')
     setTodos([
       ...todos,
       {
@@ -34,6 +35,7 @@ function App() {
         status : false
       }
     ]);
+    setTodo('');
   };
 
   return (
@@ -41,7 +43,7 @@ function App() {
       <div className='grid grid-cols-1 justify-items-center w-3/12 '>        
           <h1 className="font-extrabold text-transparent text-8xl bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">todos</h1>
           <div>
-            <input className='w-96 mt-5 border-2 p-2 border-gray-600 rounded-xl' placeholder='Add todo...' onChange={(e)=>setTodo(e.target.value)}/>
+            <input className='w-96 mt-5 border-2 p-2 border-gray-600 rounded-xl' placeholder='Add todo...' value={todo} onChange={(e)=>setTodo(e.target.value)}/>
             <button className='border-2 p-2 ml-3 bg-gradient-to-r from-purple-400 to-pink-600 rounded-xl' onClick={handlerSubmit}>SUBMIT</button>
           </div>
 
