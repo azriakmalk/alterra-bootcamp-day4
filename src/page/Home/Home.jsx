@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import './App.css';
+import './Home.css';
 
-function App() {
+export default function Home() {
   const [todos,setTodos] = useState([]);
   const [todo,setTodo] = useState('');
 
@@ -40,7 +40,7 @@ function App() {
 
   return (
     <div className='grid grid-cols-1 justify-items-center'>
-      <div className='grid grid-cols-1 justify-items-center w-3/12 '>        
+      <div className='grid grid-cols-1 justify-items-center w-full'>
           <h1 className="font-extrabold text-transparent text-8xl bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">todos</h1>
           <div>
             <input className='w-96 mt-5 border-2 p-2 border-gray-600 rounded-xl' placeholder='Add todo...' value={todo} onChange={(e)=>setTodo(e.target.value)}/>
@@ -50,7 +50,7 @@ function App() {
           {
             todos.map((state)=> {
             return (
-              <div className='flex justify-between w-full mt-5' key={state.id}>
+              <div className='flex justify-between w-96 mt-5' key={state.id}>
                 <input type="checkbox" className="accent-pink-500" onChange={(e)=>isChecked(e,state.id)}/>
                 <p className={state.status ? 'line-through' : ''}>{state.note}</p>
                 <button className='bg-gray-200 pt-2 pb-2 pl-1 pr-1 text-xs rounded-full' onClick={()=>handlerDelete(state.id)}>Delete</button>
@@ -62,5 +62,3 @@ function App() {
     </div>
   );
 }
-
-export default App;
