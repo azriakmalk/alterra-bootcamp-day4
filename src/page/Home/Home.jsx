@@ -1,12 +1,29 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './Home.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { addTodo, removeTodo, changeStatus } from '../../store/todo';
+import { addTodo, removeTodo, changeStatus, getTodo } from '../../store/todo';
+import axios from 'axios';
 
 export default function Home() {
   const todos = useSelector((state) => state?.todo?.todos);
   const [todo,setTodo] = useState('');
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if(!todos.length) {
+      fetchingAxios();
+    }
+  },[]);
+
+  async function fetchingAxios() {
+    try {
+      let response = await axios.get('https://jsonplaceholder.typicode.com/todos');
+      response = response.data.slice(0,10);
+      dispatch(getTodo(response));
+    } catch (error) {
+      console.log(error)
+    }
+  };
 
   const isChecked = (e, id) => {
     dispatch(changeStatus(id));
@@ -21,8 +38,8 @@ export default function Home() {
     dispatch(addTodo(
       {
         id: todos.length ? todos[todos.length-1].id + 1 : 1,
-        note : todo,
-        status : false
+        title : todo,
+        completed : false
       }
     ))
     setTodo('');
@@ -39,9 +56,9 @@ export default function Home() {
           {
             todos?.map((todo)=> {
             return (
-              <div className='flex justify-between w-96 mt-5' key={todo.id}>
-                <input type="checkbox" className="accent-pink-500" onChange={(e)=>isChecked(e,todo.id)} checked={todo.status}/>
-                <p className={todo.status ? 'line-through' : ''}>{todo.note}</p>
+              <div className='flex justify-between w-2/6 mt-5' key={todo.id}>
+                <input type="checkbox" className="accent-pink-500" onChange={(e)=>isChecked(e,todo.id)} checked={todo.completed}/>
+                <p className={todo.completed ? 'line-through' : ''}>{todo.title}</p>
                 <button className='bg-gray-200 pt-2 pb-2 pl-1 pr-1 text-xs rounded-full' onClick={()=>handleDelete(todo.id)}>Delete</button>
               </div>
             )})
