@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/alt-text */
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { redirect, useNavigate } from "react-router-dom";
 import logo from "../../assets/logo-ALTA-v2.png";
 import iconArrow from "../../assets/control.png";
 
@@ -12,6 +12,15 @@ const Header = () => {
     { title: "ABOUT", link: '/about'},
     // { title: "Accounts",  gap: true },
   ];
+
+  const handlerPage = (link) => {
+    let pathname = window.location.pathname;
+    if(pathname === link) {
+      return redirect(link)
+    }
+    history(link)
+  };
+  
   return (
     <div
       className={` ${
@@ -41,7 +50,7 @@ const Header = () => {
               index === 0 && "bg-light-white"
             } `}
           >
-            <span className={`${!open && "hidden"} origin-left duration-200 hover:text-zinc-900`} onClick={()=>history(Menu.link)}>
+            <span className={`${!open && "hidden"} origin-left duration-200 hover:text-zinc-900`} onClick={()=>handlerPage(Menu.link)}>
               {Menu.title}
             </span>
           </li>
